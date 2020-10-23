@@ -1,0 +1,28 @@
+Hirsipuu-peli
+
+Pelin tarkoituksena arvata mikä sana on piilotettu merkkien taakse. 
+Pelaaja arvaa kirjaimia, mikäli kirjain löytyy sanasta paljastetaan vastaavat kirjaimet merkkien takaa. 
+Mikäli pelaaja vastaa väärin, lisätään pelaajan virhetiliä ja rakennetaan hirsipuuta.
+Mikäli pelaaja saa kaikki kirjaimet esille ennen 10:tä virhettä, pelaaja voittaa.
+10 virhettä, niin hirsipuu on valmis ja peli loppuu pelaajan häviöön eli hirsipuussa roikkumiseen.
+
+Aloitusikkunassa pelaajalla on mhdollisuus valita kolmesta napista.
+"Arvo sana" arpoo sattumanvaraisen sanan pelin varastosta.
+"Lisä oma sana" avaa oman sanan syöttöikkunan ja pelaaja voi syöttää uuden sanan varastoon.
+ Sanan pitää olla vähintään 3 merkkiä pitkä eikä se saa sisältää ääkkösiä.
+ Sanaehdotuksen syöttämisen jälkeen pelaaja voi syöttöikkunassa valita joko tallentavansa 
+ sanan "tallenna"-napilla, jolloin peli tarkistaa, että sana täyttää em. kriteerit eikä vastaavaa sanaa 
+ vielä löydy pelistä. Pelaja voi myös poistua tallentamatta takaisin aloitusikkunaan "poistu"-napilla.
+ Mikäli pelaaja valitsee "tallenna" ja sana täyttää kriteerit pelaaja voi valita testaavansa tai laittaa 
+ kaverinsa pelaamaan juuri syöttämänsä sanan valitsemalla "Testaa oma sana"-napin. Ilman onnistunutta sanan
+ lisäystä testausnappi ei tee mitään.
+ 
+ Jar-tiedostolta pelattaessa täytyy jar-tiedoston kanssa samassa tiedostossa olla "sanat.txt"tiedosto,
+ josta pelattavat sanat löytyvät.
+ 
+ Pelattaessa pelaaja syöttää kirjaimia väliltä a-z (ei ääkkösiiä). Mikäli piilotetusta sanasta löytyy kirjain, 
+ paljastetaan kirjainten sijainti piilotetusta sanasta. Mikäli kirjainta ei löydy, lisätään virhetiliä. 
+ Pelaajan tarvitsee ainoastaan painaa haluamaansa kirjainta. Enteriä tai hiirtä ei tarvita. 
+ Peli tarkistaa onko syötetty merkki sallittu (a-z) tai onko pelaaja jo yrittänyt syöttää kyseisen kirjaimen. 
+ Ei hyväksytyistä merkeistä tai jo arvatuista kirjaimista ei tule virhettä.
+ 

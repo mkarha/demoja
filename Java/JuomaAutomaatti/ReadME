@@ -1,0 +1,15 @@
+Juoma-automaatti
+
+Juoma-automaatilla voi ostaa juomia klikkaamalla juoman kuvaketta.
+Kuvakkeen alla on tekstitieto juomasta.
+Kuvakkeen oikealla puolella on kyseisen juoman määrä automaatissa.
+Ostaminen vähentää juoman määrää uhdellä. Määrä ei voi mennä
+alle nollan. 
+
+Ylläpitovalikossa voi lisätä juomia juomatyyppi kerrallaan tai 
+alustaa automaatin, jolloi jokaista juomaa laitteaan automaattiin
+50 yksikköä. Ylläpidon avulla voi myös tallentaa automaatin
+sen hetkisen tilanteen ja ladata muistista aiemmin tallennettuja
+automaatteja. Automaatin sulkeminen tapahtuu myös ylläpito valikosta.
+
+Tietoja-valikosta voi katsoa automaatin version sekä ohjeet.
