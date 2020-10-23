@@ -1,7 +1,5 @@
 Juhis= Juha Jauhiainen, kuvat/juhisPieni.jpg, 50.0
 Tare= Tare Karvanen, kuvat/tare.jpg, 50.0
-Peku= Pekka Miettinen, , 50.0
-R‰yhis= R‰yh‰ Ralf, kuvat/rayhis.jpg, 50.0
+R√§yhis= R√§yh√§ Ralf, kuvat/rayhis.jpg, 50.0
 Muumi= Muumi Peikko, kuvat/muumi.jpg, 50.0
-tare= khljklg, rgAGRGGR, 50.0
 Rauno= Rauno Repomies, kuvat/rauno.jpg, 50.0
