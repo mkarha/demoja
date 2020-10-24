@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ public class PeliIkkuna extends Ikkuna{
 	private JPanel vasen, p2, jakajaPaneeli, oikeaYla, oikeaKeski, oikeaAla;
 	private JMenuBar menu;
 	private ArrayList<JLabel> pelaajanTulosRuudut, korttiRuudut;
-	
+	private ArrayList<String> pelaajat;
 	private JButton nosta, jaa;
 	private JTextArea teksti;
 	
@@ -30,6 +31,7 @@ public class PeliIkkuna extends Ikkuna{
 		super(width, height, title);
 
 		this.pelaaja = new Pelaaja();
+		this.pelaajat = pelaajat;
 		pelaajanTulosRuudut = new ArrayList<>();
 		this.korttiRuudut = korttiRuudut;
 		//M‰‰ritell‰‰n p‰‰ikkunan layout
@@ -64,10 +66,10 @@ public class PeliIkkuna extends Ikkuna{
 		//pelaajaruudut
 		
 		//k‰yd‰‰n l‰pi kaikki alkiot
-		for (int i=0; i<pelaajat.size(); i++) {
-			pTunnus = pelaajat.get(i);						//haetaan pelaajatunnus String-muodossa
+		for (int i=0; i<this.pelaajat.size(); i++) {
+			pTunnus = this.pelaajat.get(i);						//haetaan pelaajatunnus String-muodossa
 			if(pTunnus.equals("Jakaja")) {					//jos pelaajatunnus on jakaja
-				jakaja = pelaajat.get(i);					//asetetaan jakajaksi i:nnen alkion nimi
+				jakaja = this.pelaajat.get(i);					//asetetaan jakajaksi i:nnen alkion nimi
 				Kasi jakajanKasi = peli.getPelaajanKasi("Jakaja");
 				String arvo = peli.getSyote(jakajanKasi.getArvo());
 				Pelaaja jakajaP = new Pelaaja(jakaja, jakajanKasi.getKorttienMaara(), jakajanKasi.getArvo()); //jakaja ei ole talletettuna tiedostoon, joten luodaan uusi jakaja-niminen pelaaja
@@ -212,11 +214,10 @@ public class PeliIkkuna extends Ikkuna{
 		this.add(menu, BorderLayout.NORTH);
 		this.add(vasen, BorderLayout.WEST);
 		this.add(oikea, BorderLayout.CENTER);
-		
-					
-		
+	
 	
 	}
+	
 
 	//P‰ivitet‰‰n aktiivisen pelaajan tulos
 	public void tulosPaivitys (String tulos) {

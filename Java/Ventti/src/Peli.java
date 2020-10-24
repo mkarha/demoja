@@ -94,19 +94,24 @@ public class Peli {
 		this.pelaaja = this.pelaajat.get(0);						//Pelaaja pelaajat vuorossa oleva pelaaja
 		int indeksi = (int)(Math.random()*(this.pakka.getKorttejaPakassa()));	//Arvotaan indeksi pakassa jäljellä olevista korteista
 		this.kortti = this.pakka.jaaKortti(indeksi);						//jaetan kortti
-		korttiRuudut.add(peliIkkuna.lisaaPelaajanKuva(this.kortti.getKuvaLahde()));
+		//korttiRuudut.add(this.peliIkkuna.lisaaPelaajanKuva(this.kortti.getKuvaLahde()));
 		this.peliIkkuna.korttiPaivitys(monesko, this.kortti.getKuva());
-		monesko++;
-															//lisätään kädessä olevien korttien määrää
+		monesko++;														//lisätään kädessä olevien korttien määrää
 		this.pakka.poistaKorttiPakasta(indeksi);							//poistetaan jaettu kortti pakasta
 		this.kasi = this.pelaajienKadet.get(this.pelaaja);				//ladataan kierroksen pelaajan käsi
 		this.kasi.lisaaKortti(this.kortti);									//Lisätään käteen jaettu kortti
 		this.pelaajienKadet.put(this.pelaaja, this.kasi);				//Talletetaan pelaajatunnuksen mukaan käsi
 		this.kasi = this.pelaajienKadet.get(this.pelaaja);				//ladataan kierroksen pelaajan käsi päivitettynä
-		this.peliIkkuna.tulosPaivitys(""+this.kasi.getArvo());
+		this.peliIkkuna.tulosPaivitys(""+getSyote(this.kasi.getArvo()));
+		
+		System.out.println("Pelaajan " + this.pelaaja + ", Käden arvo " + this.kasi.getArvo());
 		
 		//mikäli päivitetyn käden arvo on yli 21 vaihdetaan vuoroa
-		if (this.kasi.getArvo()>21) {									
+		if (this.kasi.getArvo()>21) {
+			if (this.pelaaja.equals("Jakaja")) {
+				jakajanVuoro();
+			}
+			else
 			lopetaVuoro();			
 		}
 	}
@@ -127,23 +132,27 @@ public class Peli {
 		
 		if (this.pelaajat.get(0).equals("Jakaja")) {   			
 			jakajanVuoro();
-		}else if(this.vuoro<this.pelaajia) { 
+		}else 
+		
+		if(this.vuoro<this.pelaajia-1) { 
 			this.vuoro++;
+			/*
 			if (pelaaja.equals("Jakaja")) {
 							    
 				JFrame ponnahdus = new JFrame(); 
 				int response = JOptionPane.showConfirmDialog(ponnahdus, pelaaja, "Confirm",JOptionPane.DEFAULT_OPTION);
 				if (response == JOptionPane.DEFAULT_OPTION) {					
-						
-					peliIkkuna.painaNosta();
+					jakajanVuoro();	
+					//peliIkkuna.painaNosta();
 				}
 				ponnahdus.setVisible(false);
 	       		
-    		}else {			
+    		}else {	
+    		*/		
     			JFrame ponnahdus = new JFrame(); 
     			JOptionPane.showMessageDialog(ponnahdus, pelaaja, "Alert",JOptionPane.WARNING_MESSAGE);
     			ponnahdus.setVisible(false); 
-    		}
+    		//}
 			this.pelaajat.add(this.pelaajat.get(0));			
 			this.pelaajat.remove(0);
 			this.monesko = 0;
@@ -190,10 +199,15 @@ public class Peli {
 					isoinArvo = verrokki;
 				}
 			}		
+			if (isoinArvo == 0) {
+				nostaKortti();
+			}
+			
 			while (isoinArvo > this.pelaajienKadet.get("Jakaja").getArvo() && this.pelaajienKadet.get("Jakaja").getArvo()<22){
 				nostaKortti();
 			}	
-		voittaja();			
+			
+			voittaja();			
 		}
 		
 		/*Tarkistetaan voittaja.
@@ -212,8 +226,10 @@ public class Peli {
 					isoinArvo = verrokki;
 					isoinPelaaja = this.pelaajat.get(i);
 				} else if (verrokki < 22 && verrokki == isoinArvo) {
-					if (this.pelaajat.get(i).equals("Jakaja") || isoinPelaaja.equals("Jakaja")) {
+					if (this.pelaajat.get(i).equals("Jakaja") ) {
 						isoinPelaaja = this.pelaajat.get(i);
+					}else if (isoinPelaaja.equals("Jakaja")) {
+						isoinPelaaja = "Jakaja";
 					}else {
 						isoinPelaaja += " ja " + this.pelaajat.get(i);
 					}
@@ -231,20 +247,21 @@ public class Peli {
 			JDialog.setDefaultLookAndFeelDecorated(false);
 			
 		    int response = JOptionPane.showConfirmDialog(null, isoinPelaaja + " voitti!", "Confirm",
-		        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		        JOptionPane.YES_NO_OPTION);//), JOptionPane.QUESTION_MESSAGE);
 		    
 		    if (response == JOptionPane.NO_OPTION) {
 		    	peliIkkuna.sulje();
-		    	response = JOptionPane.CLOSED_OPTION;
+		    	
 				TervetuloIkkuna tervetuloa = new TervetuloIkkuna(600, 400, "Tervetuloa Venttiin");
 				tervetuloa.nayta();
 		    } else if (response == JOptionPane.YES_OPTION) {
+		    	
 		    	pelaajat.add(pelaajat.get(0));
 				pelaajat.remove(0);
 				Peli peli = new Peli(pelaajat);
 				peliIkkuna.sulje();
 				peli.naytaPeli();	
-				response = JOptionPane.CLOSED_OPTION;
+			
 		    } else if (response == JOptionPane.CLOSED_OPTION) {
 		      
 		    }

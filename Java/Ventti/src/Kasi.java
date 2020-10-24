@@ -92,7 +92,7 @@ public class Kasi {
 	}
 	
 	
-	//Käden taulukkomuodossa palauttava getteri
+	//Käden taulukkomuodossa palauttava getteri  
 	public ArrayList<Kortti> palautaKasi() {
 		return this.kortit;
 	}
