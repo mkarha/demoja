@@ -17,20 +17,20 @@ public class Kasi {
 	public void lisaaKortti(Kortti kortti) {
 		
 		this.kortit.add(kortti);
-	    if(monesko>0)  {
+	    if(this.monesko>0)  {
 	    	/*Mikäli ei ensimmäinen kortti, järjestetään pienin kortti kädessä viimeiseksi.
 	        *Tarkoituksena saada ässä viimeiseen laskettavaan soluun, jotta voidaan määrittää ässälle
 	        *vaihtoehtoiset arvot 1 tai 14
 	    	*
 	        *tarkistetaan onko jaettu kortti pienempi kuin edellisessä solussa oleva kortti
 	        **/
-	        if(kortit.get(monesko).getArvo()>kortit.get(monesko-1).getArvo()) {
-	            Kortti korttiPieni = kortit.get(monesko-1);
-	            kortit.remove(monesko-1);
+	        if(kortit.get(this.monesko).getArvo()>kortit.get(this.monesko-1).getArvo()) {
+	            Kortti korttiPieni = kortit.get(this.monesko-1);
+	            kortit.remove(this.monesko-1);
 	            kortit.add(korttiPieni);
 	        }
 	    }
-	    monesko++;		
+	    this.monesko++;		
 	}
 	
 	

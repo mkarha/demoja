@@ -45,7 +45,7 @@ public class Ylapalkki {
 	}
 	
 	public void painaExit() {
-		this.i6.doClick();
+		this.i6.doClick(5);
 	}
 	
 }

@@ -3,12 +3,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -26,8 +23,8 @@ public class PeliIkkuna extends Ikkuna{
 	private ArrayList<String> pelaajat;
 	private JButton nosta, jaa;
 	private JTextArea teksti;
-	
-	public PeliIkkuna(int width, int height, String title, ArrayList<String> pelaajat, ArrayList<JLabel> korttiRuudut, Peli peli) {
+
+	PeliIkkuna(int width, int height, String title, ArrayList<String> pelaajat, ArrayList<JLabel> korttiRuudut, Peli peli) {
 		super(width, height, title);
 
 		this.pelaaja = new Pelaaja();
@@ -171,25 +168,33 @@ public class PeliIkkuna extends Ikkuna{
 		oikeaAlaOikea.setBorder(new EmptyBorder(50, 100, 100 ,100));
 		JPanel oikeaAlaVasen = new JPanel();
 		oikeaAlaVasen.setBorder(new EmptyBorder(50, 100, 100 ,100));
-		JButton nosta = new JButton("Nosta"); //mahdollisesti kortti-ikoni olisi selke‰mpi
+		this.nosta = new JButton("Nosta"); //mahdollisesti kortti-ikoni olisi selke‰mpi
 		teksti = new JTextArea("Ventti\n\nNosta-napilla nostat lis‰‰ kortteja.\nJ‰‰-nappi lopettaa vuoron.");
 		teksti.setBorder(new EmptyBorder(50, 50, 50 ,50));
-		JButton jaa = new JButton("J‰‰");	  //mahdollisesti stoppi- tai muu ikoni
+		this.jaa = new JButton("J‰‰");	  //mahdollisesti stoppi- tai muu ikoni
 		
 		//Nappien toiminnallisuuden m‰‰rittely
 		
 
-		nosta.addActionListener(new ActionListener() {
+		this.nosta.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (peli.getLoppu()==true) {
+					
+					pelaajat.add(pelaajat.get(0));
+					pelaajat.remove(0);
+					Peli peli = new Peli(pelaajat);
+					sulje();
+					peli.naytaPeli();	
+				}
 				peli.nostaKortti();	
 			}			
 		});
 	
-		jaa.addActionListener(new ActionListener() {
+		this.jaa.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (peli.getLoppu()) {
+				if (peli.getLoppu()==true) {					
 					ylapalkki.painaExit();
 				}
 				peli.lopetaVuoro();
@@ -229,6 +234,13 @@ public class PeliIkkuna extends Ikkuna{
 	public void korttiPaivitys (int ruutu, ImageIcon kuva) {
 		this.korttiRuudut.get(ruutu).setIcon(kuva);
 	}
+	
+	//P‰ivitet‰‰n napit. Nosta nappi uudeksi peliksi ja j‰‰-nappi poistumiseksi
+	public void nappienPaivitys() {
+		this.nosta.setText("Uusi peli");
+		this.jaa.setText("Poistu");
+	}
+	
 	
 	
 	//Luodaan passiivisille pelaajille s‰ilˆt
