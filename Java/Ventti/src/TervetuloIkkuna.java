@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 public class TervetuloIkkuna extends Ikkuna {
 	private PelaajatIkkuna pelaajat;
-	private ArrayList<String> pelaajaTunnukset;
+	
 	
 	
 	/*Luodaan tervetuloikkuna
@@ -96,9 +97,10 @@ public class TervetuloIkkuna extends Ikkuna {
 	 * luodut/ladatut pelaajat.
 	 */
 	public void luoPelaaja(int lkm) {	
-		pelaajaTunnukset = new ArrayList<>();
-		int monesko = 1;
-		pelaajat = new PelaajatIkkuna(600, 400, "Pelaaja" + monesko, monesko, lkm, pelaajaTunnukset);
+		HashMap<Integer, Pelaaja> pelaajaTunnukset = new HashMap<>();
+		//pelaajaTunnukset = new ArrayList<>();
+		int monesko = 0;
+		pelaajat = new PelaajatIkkuna(600, 400, "Pelaaja" + (monesko+1), monesko, lkm, pelaajaTunnukset);
 		pelaajat.nayta();
 		this.piilota();			
 	}

@@ -11,6 +11,7 @@ public class Pelaaja {
 	
 	private String tiedosto = "pelaajat.txt";
 	private String kayttaja, nimi;
+	private int monesko;
 	private int arvo; //pelaajan k‰den arvo
 	private int lkm; //pelaajan kortttien lkm
 	private double raha; //pelaajan pinkka
@@ -20,17 +21,20 @@ public class Pelaaja {
 	
 	//Parametriton konstruktori
 	public Pelaaja() {
+		this.monesko = 0;
 		this.lkm = 0;
 		this.arvo = 0;
 		this.raha = 0;
 	}
 
 	//Pelaajan luominen nimen avulla
-	public Pelaaja(String nimi) {
-		this.nimi = nimi;
+	public Pelaaja(String kayttaja, String kuvaLahde) {
+		this.kayttaja = kayttaja;
+		this.nimi = "";
 		this.lkm = 0;
 		this.arvo = 0;
 		this.raha = 0;
+		
 		try { //yritet‰‰n ladata pelaajan kuva
 			this.kuva = new ImageIcon(this.getClass().getResource("/kuvat/" + kuvaLahde));
 		}
@@ -78,6 +82,15 @@ public class Pelaaja {
 		this.nimi = nimi;
 	}
 	
+	public void setKuva(String kuvaLahde) {
+		try { //yritet‰‰n ladata pelaajan kuva
+			this.kuva = new ImageIcon(this.getClass().getResource("/kuvat/" + kuvaLahde));
+		}
+		catch (Exception e) {
+			
+		}
+	}
+	
 	
 	//Kuvan ikonina palauttava getteri
 	public ImageIcon getKuva() {
@@ -86,7 +99,7 @@ public class Pelaaja {
 	
 	
 	//Kuval‰hteen tekstimuodossa asettava setteri
-	public void setKuva(String kuvaLahde) {
+	public void setKuvaLahde(String kuvaLahde) {
 		this.kuvaLahde = kuvaLahde;
 	}
 	
@@ -94,6 +107,18 @@ public class Pelaaja {
 	//Kuval‰hteen tekstimuodossa palauttava getteri
 	public String getKuvaLahde() {
 		return this.kuvaLahde;
+	}
+	
+	
+	//monentenako pelaajan pelaaja liittyi peliin
+	//getteri
+	public int getMonesko() {
+		return this.monesko;
+	}
+	
+	//setteri
+	public void setMonesko(int monesko) {
+		this.monesko = monesko;
 	}
 	
 	
@@ -202,19 +227,25 @@ public class Pelaaja {
 	 *
 	 */
 	public void tallennaPelaaja(Pelaaja pelaaja) {
-				JFrame ponnahdus = new JFrame();
-				if (onkoPelaajaJoOlemassa(pelaaja.getKayttaja())==true) {
-					JOptionPane.showMessageDialog(ponnahdus,"K‰ytt‰j‰tunnus on jo k‰ytˆss‰. Ole hyv‰ja valitse toinen k‰ytt‰j‰tunnus.","Alert",JOptionPane.WARNING_MESSAGE);
-					ponnahdus.setVisible(false);
-				        return; 		            	
-				}            
-				String lisattava = "";
-				//yritet‰‰n kirjoittaa tiedostoon
-				try {
+		JFrame ponnahdus = new JFrame();
+		if (onkoPelaajaJoOlemassa(pelaaja.getKayttaja())==true) {
+			JOptionPane.showMessageDialog(ponnahdus,"K‰ytt‰j‰tunnus on jo k‰ytˆss‰. Ole hyv‰ja valitse toinen k‰ytt‰j‰tunnus.","Alert",JOptionPane.WARNING_MESSAGE);
+			ponnahdus.setVisible(false);
+		    return; 		            	
+		}            
+		String lisattava = "";
+		//yritet‰‰n kirjoittaa tiedostoon
+		try {
 					FileWriter fileWriter = new FileWriter(tiedosto, true);
 				    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);     
 				    //tallenteen muotoilua
 				    lisattava += pelaaja.getKayttaja() +"= ";  //erotetaan pelaajan tunnus kuvasta ja raham‰‰r‰st‰ v‰lilyˆnnill‰ ja =-merkill‰
+				    if (lisattava.equals("")) {
+				    	bufferedWriter.close(); 
+				    	throw new Exception();
+				    }
+				    
+				    
 				    lisattava += pelaaja.getNimi() + ", " + pelaaja.getKuvaLahde() + ", " + pelaaja.getRaha() +"\n";		//Lis‰t‰‰n kuva ja raham‰‰r‰ pilkulla erotettuna
 				           
 				    bufferedWriter.write(lisattava); 								//kirjoitetaan tiedot tiedostoon

@@ -21,6 +21,16 @@
 			<location>D:/Ohjelmoinnit/R0317/Ventti/src/kuvat</location>
 		</link>
 		<link>
+			<name>src/kuvat/cardshark.png</name>
+			<type>1</type>
+			<location>D:/Ohjelmoinnit/R0317/Ventti/src/kuvat/cardshark.png</location>
+		</link>
+		<link>
+			<name>src/kuvat/girlplayer.jpg</name>
+			<type>1</type>
+			<location>D:/Ohjelmoinnit/R0317/Ventti/src/kuvat/girlplayer.jpg</location>
+		</link>
+		<link>
 			<name>src/kuvat/rauno.jpg</name>
 			<type>1</type>
 			<location>D:/Ohjelmoinnit/R0317/Ventti/src/kuvat/rauno.jpg</location>

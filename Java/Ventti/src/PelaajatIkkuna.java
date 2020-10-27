@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +21,7 @@ public class PelaajatIkkuna extends Ikkuna{
 	private JTextField kayttaja, nimi, kuva;
 
 	//Luodaan ikkuna kieroksen pelaajatietoja varten
-	public PelaajatIkkuna (int width, int height, String title, int monesko, int lkm, ArrayList<String> pelaajaTunnukset) {
+	public PelaajatIkkuna (int width, int height, String title, int monesko, int lkm, HashMap<Integer, Pelaaja>pelaajaTunnukset) {
 		super(width, height, title);
 
 		
@@ -74,6 +76,7 @@ public class PelaajatIkkuna extends Ikkuna{
 		//Alareunan napit
 		JButton lataa = new JButton("Lataa pelaaja");									//Käyttäjä voi ladata tallennetun hahmon käyttäjätunnuksella
 		JButton tallenna = new JButton("Tallenna tiedot");								//Tallettaa hahmon käyttäjän syöttämillä tiedoilla
+		JButton pelaaTallentamatta = new JButton ("Pelaa tallentamatta");
 		JButton poistu = new JButton("Poistu");											//Paluu Tervetuloa ikkunaan
 		JPanel nappiPaneeli = new JPanel();							
 		BoxLayout nappiPaneeliAsettelu = new BoxLayout(nappiPaneeli, BoxLayout.X_AXIS);	//Asemoidaan napit vierekkäin
@@ -81,6 +84,7 @@ public class PelaajatIkkuna extends Ikkuna{
 		nappiPaneeli.add(poistu);
 		nappiPaneeli.add(lataa);
 		nappiPaneeli.add(tallenna);
+		nappiPaneeli.add(pelaaTallentamatta);
 
 		//Luodaan syöttökenttien toiminnallisuus lisäämällä KeyListener	
 		kayttaja.addKeyListener
@@ -129,10 +133,11 @@ public class PelaajatIkkuna extends Ikkuna{
 						pelaaja = pelaaja.lataaPelaaja(pelaajanTunnus);
 						JOptionPane.showMessageDialog(ponnahdus,"Pelaaja ladattu onnistuneesti.","Alert",JOptionPane.WARNING_MESSAGE);
 		           		ponnahdus.setVisible(false); 
+		           		pelaaja.setMonesko(monesko);
+		           		pelaaja.setKuva(pelaaja.getKuvaLahde());
 		           		jatketaan(monesko, lkm, pelaajaTunnukset);
 					}
-				}		
-	
+				}			
 			}
 						
 		});
@@ -142,13 +147,30 @@ public class PelaajatIkkuna extends Ikkuna{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int key= KeyEvent.VK_ENTER;						//Otetaan viimeinen kirjain syöttökentästä talteen näppäilemällä loppuun enter
+				int key = KeyEvent.VK_ENTER;						//Otetaan viimeinen kirjain syöttökentästä talteen näppäilemällä loppuun enter
 				pelaaja.setKayttaja(lueKirjain(kayttaja, key));	//Käydään kunkin tekstikentän syöte läpi enterin kanssa
 				pelaaja.setNimi(lueKirjain(nimi, key));
 				pelaaja.setKuva(lueKirjain(kuva, key));
 				pelaaja.setRaha(50);							//Asetetaan rahamäärä
 				pelaaja.tallennaPelaaja(pelaaja);			//Talletetaan hahmon tiedot tiedostoon
-				
+				pelaaja.setMonesko(monesko);
+				jatketaan(monesko, lkm, pelaajaTunnukset);				
+			}			
+		});
+		
+		//pelaa tallentamatta
+		pelaaTallentamatta.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int key = KeyEvent.VK_ENTER;						//Otetaan viimeinen kirjain syöttökentästä talteen näppäilemällä loppuun enter
+				pelaaja = new Pelaaja(lueKirjain(kayttaja, key), "girlplayer.jpg");
+				//pelaaja.setKayttaja(lueKirjain(kayttaja, key));	//Käydään kunkin tekstikentän syöte läpi enterin kanssa
+				//pelaaja.setNimi(lueKirjain(nimi, key));
+				//pelaaja.setKuva("girlplayer.jpg");
+				pelaaja.setRaha(50);							//Asetetaan rahamäärä
+				//pelaaja.tallennaPelaaja(pelaaja);			//Talletetaan hahmon tiedot tiedostoon
+				pelaaja.setMonesko(monesko);
 				jatketaan(monesko, lkm, pelaajaTunnukset);				
 			}			
 		});
@@ -201,15 +223,17 @@ public class PelaajatIkkuna extends Ikkuna{
 	 * luodut pelaajat ja johon lisätään luotava pelaaja.
 	 * Kun lkm on laskenut alle yhteen (0), lisätään taulukkoon vielä jakaja ja käynnistetään peli.
 	 */
-	public void jatketaan(int monesko, int lkm, ArrayList<String> pelaajaTunnukset) {
-		pelaajaTunnukset.add(pelaaja.getKayttaja());		
+	public void jatketaan(int monesko, int lkm, HashMap<Integer, Pelaaja> pelaajaTunnukset) {
+		pelaajaTunnukset.put(monesko, pelaaja);		
 		monesko++;
 		if(lkm>1) {
 			PelaajatIkkuna pelaajaNext = new PelaajatIkkuna(600, 400, "Pelaaja" + monesko, monesko, lkm-1, pelaajaTunnukset);
 			pelaajaNext.nayta();
 			piilota();		
 		} else {
-			pelaajaTunnukset.add("Jakaja");	
+			pelaaja = new Pelaaja("Jakaja", "banker.jpg");
+			pelaaja.setMonesko(monesko);
+			pelaajaTunnukset.put(monesko, pelaaja);	
 			Peli peli = new Peli(pelaajaTunnukset);
 			peli.naytaPeli();
 			piilota();										//piilotetaan ikkuna

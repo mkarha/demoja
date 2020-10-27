@@ -15,16 +15,16 @@ import javax.swing.border.EmptyBorder;
 public class PeliIkkuna extends Ikkuna{
 	
 	private ImageIcon kuva;
-	private String pTunnus, jakaja;
+	private Pelaaja pTunnus, jakaja;
 	private Pelaaja pelaaja, p;
 	private JPanel vasen, p2, jakajaPaneeli, oikeaYla, oikeaKeski, oikeaAla;
 	private JMenuBar menu;
 	private ArrayList<JLabel> pelaajanTulosRuudut, korttiRuudut;
-	private ArrayList<String> pelaajat;
+	private ArrayList<Pelaaja> pelaajat;
 	private JButton nosta, jaa;
 	private JTextArea teksti;
 
-	PeliIkkuna(int width, int height, String title, ArrayList<String> pelaajat, ArrayList<JLabel> korttiRuudut, Peli peli) {
+	PeliIkkuna(int width, int height, String title, ArrayList<Pelaaja> pelaajat, ArrayList<JLabel> korttiRuudut, Peli peli) {
 		super(width, height, title);
 
 		this.pelaaja = new Pelaaja();
@@ -64,15 +64,16 @@ public class PeliIkkuna extends Ikkuna{
 		
 		//k‰yd‰‰n l‰pi kaikki alkiot
 		for (int i=0; i<this.pelaajat.size(); i++) {
-			pTunnus = this.pelaajat.get(i);						//haetaan pelaajatunnus String-muodossa
-			if(pTunnus.equals("Jakaja")) {					//jos pelaajatunnus on jakaja
+			pTunnus = this.pelaajat.get(i);		//haetaan pelaajatunnus String-muodossa
+			System.out.println("ptunnus: " + pTunnus.getKayttaja());
+			if(pTunnus.getKayttaja().equals("Jakaja")) {					//jos pelaajatunnus on jakaja
 				jakaja = this.pelaajat.get(i);					//asetetaan jakajaksi i:nnen alkion nimi
-				Kasi jakajanKasi = peli.getPelaajanKasi("Jakaja");
+				Kasi jakajanKasi = peli.getPelaajanKasi(jakaja);
 				String arvo = peli.getSyote(jakajanKasi.getArvo());
-				Pelaaja jakajaP = new Pelaaja(jakaja, jakajanKasi.getKorttienMaara(), jakajanKasi.getArvo()); //jakaja ei ole talletettuna tiedostoon, joten luodaan uusi jakaja-niminen pelaaja
+				//Pelaaja jakajaP = new Pelaaja(jakaja, jakajanKasi.getKorttienMaara(), jakajanKasi.getArvo()); //jakaja ei ole talletettuna tiedostoon, joten luodaan uusi jakaja-niminen pelaaja
 				jakajaPaneeli = luoPelaajaRuutu();			//luodaan jakajan tiedoille JPaneeli
-				JLabel jakajaNaama = lisaaPelaajanKuva("/kuvat/banker.jpg"); //asetetaan jakajalle kuvake
-				JLabel jakajaNimi = new JLabel(jakaja + ": ");	//asetetaan jakajan nimi
+				JLabel jakajaNaama = lisaaPelaajanKuva(jakaja.getKuva());//"/kuvat/banker.jpg"); //asetetaan jakajalle kuvake
+				JLabel jakajaNimi = new JLabel(jakaja.getKayttaja() + ": ");	//asetetaan jakajan nimi
 				JLabel jakajaTulos = new JLabel("" + arvo);		//haetaan jakajan kaden arvo
 				pelaajanTulosRuudut.add(jakajaTulos);
 				JPanel nimiJaTulosjakaja = new JPanel();	//luodaan jakajan nimi ja tulos label
@@ -86,11 +87,11 @@ public class PeliIkkuna extends Ikkuna{
 				}
 						
 			}else {											//muut pelaajat kuin jakaja
-				pelaaja = pelaaja.lataaPelaaja(pTunnus);	//ladataan pelaajan nimi
+				pelaaja = this.pelaajat.get(i);	//ladataan pelaajan nimi
 				p2 = luoPelaajaRuutu();						//k‰ytet‰‰n luo ruutu-metodia pelaaja-paneelin luontiin
 				Kasi pelaajanKasi = peli.getPelaajanKasi(pTunnus);
 				String arvo = peli.getSyote(pelaajanKasi.getArvo());
-				JLabel p2Naama = lisaaPelaajanKuva(pelaaja.getKuvaLahde()); //luodaan pelaajan kuva
+				JLabel p2Naama = lisaaPelaajanKuva(pelaaja.getKuva()); //luodaan pelaajan kuva
 				JLabel p2Nimi = new JLabel(pelaaja.getKayttaja() + ": ");				//luodaan label pelaajan nimelle);
 				JLabel p2Tulos = new JLabel("" + arvo);		//luodaan label pelaajan tulokselle
 				pelaajanTulosRuudut.add(p2Tulos);
@@ -174,7 +175,7 @@ public class PeliIkkuna extends Ikkuna{
 		this.jaa = new JButton("J‰‰");	  //mahdollisesti stoppi- tai muu ikoni
 		
 		//Nappien toiminnallisuuden m‰‰rittely
-		
+		nappienPaivitys(peli.getLoppu());
 
 		this.nosta.addActionListener(new ActionListener() {
 			@Override
@@ -183,7 +184,7 @@ public class PeliIkkuna extends Ikkuna{
 					
 					pelaajat.add(pelaajat.get(0));
 					pelaajat.remove(0);
-					Peli peli = new Peli(pelaajat);
+					peli.alustus();
 					sulje();
 					peli.naytaPeli();	
 				}
@@ -236,9 +237,14 @@ public class PeliIkkuna extends Ikkuna{
 	}
 	
 	//P‰ivitet‰‰n napit. Nosta nappi uudeksi peliksi ja j‰‰-nappi poistumiseksi
-	public void nappienPaivitys() {
-		this.nosta.setText("Uusi peli");
-		this.jaa.setText("Poistu");
+	public void nappienPaivitys(boolean loppu) {
+		if (loppu) {
+			this.nosta.setText("Uusi peli");
+			this.jaa.setText("Poistu");
+		}else {
+			this.nosta.setText("Nosta");
+			this.jaa.setText("J‰‰");
+		}
 	}
 	
 	
@@ -276,13 +282,15 @@ public class PeliIkkuna extends Ikkuna{
 	}
 	
 	//Lis‰t‰‰n pelaajaruutuun pelaajan kuva, mik‰li sellainen on m‰‰ritelty
-	public JLabel lisaaPelaajanKuva(String kuvaLahde) {
+	public JLabel lisaaPelaajanKuva(ImageIcon kuva) {
+			/*
 		try { //yritet‰‰n ladata kuva
 			kuva = new ImageIcon(this.getClass().getResource(kuvaLahde));
 		}
 		catch (Exception e) {
 			
 		}
+		*/
 		JLabel label = new JLabel(kuva);
 		return label;
 	}
