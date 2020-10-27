@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 public class PelaajatIkkuna extends Ikkuna{
@@ -164,13 +165,26 @@ public class PelaajatIkkuna extends Ikkuna{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int key = KeyEvent.VK_ENTER;						//Otetaan viimeinen kirjain syöttökentästä talteen näppäilemällä loppuun enter
-				pelaaja = new Pelaaja(lueKirjain(kayttaja, key), "girlplayer.jpg");
+				pelaaja = new Pelaaja(lueKirjain(kayttaja, key));
 				//pelaaja.setKayttaja(lueKirjain(kayttaja, key));	//Käydään kunkin tekstikentän syöte läpi enterin kanssa
 				//pelaaja.setNimi(lueKirjain(nimi, key));
 				//pelaaja.setKuva("girlplayer.jpg");
 				pelaaja.setRaha(50);							//Asetetaan rahamäärä
 				//pelaaja.tallennaPelaaja(pelaaja);			//Talletetaan hahmon tiedot tiedostoon
 				pelaaja.setMonesko(monesko);
+				JFrame ponnahdus = new JFrame();
+			    UIManager.put("OptionPane.yesButtonText", "F");
+			    UIManager.put("OptionPane.noButtonText", "M");
+			    int option = JOptionPane.showConfirmDialog(ponnahdus, "M=male, F=female" , "Valitse hahmon sukupuoli",JOptionPane.YES_NO_OPTION);
+			    if(option==JOptionPane.YES_OPTION) {
+			    	pelaaja.setKuvaLahde("girlplayer.jpg");
+			    	pelaaja.setKuva(pelaaja.getKuvaLahde());
+			    }
+			    if(option==JOptionPane.NO_OPTION) {
+			    	pelaaja.setKuvaLahde("cardshark.png");
+			    	pelaaja.setKuva(pelaaja.getKuvaLahde());
+			    }
+				ponnahdus.setVisible(false); 
 				jatketaan(monesko, lkm, pelaajaTunnukset);				
 			}			
 		});

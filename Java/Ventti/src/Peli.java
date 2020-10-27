@@ -155,7 +155,7 @@ public class Peli {
 			this.vuoro++;
 	
     			JFrame ponnahdus = new JFrame(); 
-    			JOptionPane.showMessageDialog(ponnahdus, pelaaja.getKayttaja(), "Alert",JOptionPane.WARNING_MESSAGE);
+    			JOptionPane.showMessageDialog(ponnahdus, pelaaja.getKayttaja(), "Seuraavana vuorossa",JOptionPane.WARNING_MESSAGE);
     			ponnahdus.setVisible(false); 
     		
 			this.kiertavat.add(this.kiertavat.get(0));			
@@ -236,7 +236,7 @@ public class Peli {
 			//Ilmoituksen alle napit alkuun paluuta ja uutta peliä samoilla pelaajilla varten
 		
 		    JFrame ponnahdus = new JFrame();
-		    JOptionPane.showMessageDialog(ponnahdus, pelaaja + " voitti!", "Confirm",JOptionPane.DEFAULT_OPTION);
+		    JOptionPane.showMessageDialog(ponnahdus, pelaaja + " voitti!", "Onneksi olkoon!",JOptionPane.DEFAULT_OPTION);
 			ponnahdus.setVisible(false); 
    			
 		}

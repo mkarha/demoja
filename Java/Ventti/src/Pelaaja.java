@@ -26,8 +26,17 @@ public class Pelaaja {
 		this.arvo = 0;
 		this.raha = 0;
 	}
-
+	
 	//Pelaajan luominen nimen avulla
+		public Pelaaja(String kayttaja) {
+			this.kayttaja = kayttaja;
+			this.monesko = 0;
+			this.lkm = 0;
+			this.arvo = 0;
+			this.raha = 0;
+		}
+
+	//Pelaajan luominen nimen ja kuvan nimen avulla
 	public Pelaaja(String kayttaja, String kuvaLahde) {
 		this.kayttaja = kayttaja;
 		this.nimi = "";
