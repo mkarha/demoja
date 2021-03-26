@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 public class Paaikkuna{
 	
 	private JFrame paaikkuna;
+	private JButton arvoSana;
 	
 	public Paaikkuna() {
 
@@ -80,7 +81,7 @@ public class Paaikkuna{
 		otsikko.setFont(otsikko.getFont().deriveFont((float) 30.0));
 		otsikko.setBorder(new EmptyBorder(new Insets(30, 100, 0, 30)));
 		JButton poistu = new JButton("Poistu");
-		JButton arvoSana = new JButton("Arvo sana");
+		arvoSana = new JButton("Arvo sana");
 		JButton omaSana = new JButton("Lis‰‰ oma sana");
 		
 		//M‰‰ritell‰‰n poistu-napin toiminnallisuus
@@ -137,6 +138,11 @@ public class Paaikkuna{
 	public void nayta () {
 		this.paaikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		this.paaikkuna.setVisible(true);
+	}
+	
+	public void uusiPeli()
+	{
+		arvoSana.doClick();
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class Sana {
 	
 	//Sana-luokan yksityiset muuttujat sanalista, sanatiedosto, sanapiilo ja jo arvatut kirjaimet
@@ -93,7 +94,12 @@ public class Sana {
 			for (i=0; i<pituus; i++) {
 				//char c = sana.charAt(i);
 	            if (c < 0x2d || (c >= 0x2e && c <= 0x40) || (c > 0x5a && c <= 0x60) || c > 0x7a) {
-	            	tark = 1;    		            	
+	            	tark = 1;
+	            	
+	                if ( c == 'å' || c == 'ä' || c == 'ö' )
+	                {
+	                	tark = 0;
+	                }
 	            }
 	       	}							
 			if (tark == 0) {

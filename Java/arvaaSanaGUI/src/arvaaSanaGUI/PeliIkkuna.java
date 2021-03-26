@@ -1,6 +1,7 @@
 package arvaaSanaGUI;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ public class PeliIkkuna {
 	private Kuva kuvat;
 	private Sana sanat;
 	private Paaikkuna paaikkuna;
-	private JButton poistu;
+	private JButton poistu, uusiPeli;
 	private Tarkastaja tarkastaja;
 	
 	public void luoPeli(String sana) { 
@@ -74,7 +75,13 @@ public class PeliIkkuna {
 		this.arvatut.setFont(arvatut.getFont().deriveFont((float) 30.0)); //arvattujen koko
 		this.arvatut.setBorder(new EmptyBorder(new Insets(0, 20, 10, 0))); //reunat arvattujen ympärille
 		
+		JPanel nappipaneeli = new JPanel();
+		GridLayout nappipaneeliasettelu = new GridLayout(1, 2);
+		nappipaneeli.setLayout(nappipaneeliasettelu);
 		this.poistu = new JButton("Palaa alkuun"); //Paluu nappi
+		this.uusiPeli = new JButton("Uusi peli");
+		nappipaneeli.add(uusiPeli);	
+		nappipaneeli.add(poistu);	
 		
 		//Määritellään tyhjät reunat tekstinsyötön ympärille ja lisätään sisältö paneeliin
 		paneeli.setBorder(new EmptyBorder(new Insets(100, 80, 150, 20)));
@@ -85,13 +92,13 @@ public class PeliIkkuna {
 			
 		//Lisätään sisältö alapaneeliin
 		alapaneeli.add(arvatut, BorderLayout.WEST);
-		alapaneeli.add(poistu, BorderLayout.EAST);		
+		alapaneeli.add(nappipaneeli, BorderLayout.EAST);	
 		
 		//Mikäli arvauskentässä painetaan entteriä, suoritetaan tarkasta napin painallista vastaava toiminnallisuus
 		this.arvaus.addKeyListener
 	      (new KeyAdapter() {
 	          public void keyPressed(KeyEvent k) {
-	        	
+	        	  
 	        	  kirjainToiminnallisuus(sana, k);
 	            
 	         }
@@ -104,6 +111,15 @@ public class PeliIkkuna {
 			public void actionPerformed(ActionEvent e) {
 				paaikkuna.nayta();
 				ikkuna.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+				ikkuna.setVisible(false);			
+			}			
+		});
+		
+		//määritellään uusiPeli napin toiminnallisuus
+		this.uusiPeli.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				paaikkuna.uusiPeli();
 				ikkuna.setVisible(false);			
 			}			
 		});
@@ -134,13 +150,12 @@ public class PeliIkkuna {
 	
 	
 	private void kirjainToiminnallisuus(String sana, KeyEvent k) {
-		int key = k.getKeyCode();
         char merk = k.getKeyChar();
         String arvaukset = sanat.getArvatut();
         arvaus.setText(""); //Tyhjennetään arvaus-kentän teksti
-        if (sanat.tarkastaSana(key, 1)==false) {
+        if (sanat.tarkastaSana(merk, 1)==false) {
 			ohje1.setText("Syötä ainoastaan kirjaimia");
-			ohje2.setText("a-z:n väliltä.");
+			ohje2.setText("a-ö:n väliltä.");
 			return;
 		}
 		else if(tarkastaja.onkoKirjainta(arvaukset.length(), merk, arvaukset)) {

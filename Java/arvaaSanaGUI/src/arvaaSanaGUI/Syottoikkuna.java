@@ -82,7 +82,7 @@ public class Syottoikkuna {
 					ohje.setText("Sanassa tulee olla vähintään 3 kirjainta");
 				}
 				else if(tarkastaja.tarkastaSana(sana, sana.length())==false) {
-					ohje.setText("Sana saa sisältää vain kirjaimia a-z");
+					ohje.setText("Sana saa sisältää vain kirjaimia a-ö");
 				}
 				else if (sanat.onkoSanaJoOlemassa(sana)==false) {
 					if(sanat.tallenna()==true) {

@@ -20,9 +20,9 @@ Aloitusikkunassa pelaajalla on mhdollisuus valita kolmesta napista.
  Jar-tiedostolta pelattaessa täytyy jar-tiedoston kanssa samassa tiedostossa olla "sanat.txt"tiedosto,
  josta pelattavat sanat löytyvät.
  
- Pelattaessa pelaaja syöttää kirjaimia väliltä a-z (ei ääkkösiiä). Mikäli piilotetusta sanasta löytyy kirjain, 
+ Pelattaessa pelaaja syöttää kirjaimia väliltä a-ö. Mikäli piilotetusta sanasta löytyy kirjain, 
  paljastetaan kirjainten sijainti piilotetusta sanasta. Mikäli kirjainta ei löydy, lisätään virhetiliä. 
  Pelaajan tarvitsee ainoastaan painaa haluamaansa kirjainta. Enteriä tai hiirtä ei tarvita. 
- Peli tarkistaa onko syötetty merkki sallittu (a-z) tai onko pelaaja jo yrittänyt syöttää kyseisen kirjaimen. 
+ Peli tarkistaa onko syötetty merkki sallittu (a-ö) tai onko pelaaja jo yrittänyt syöttää kyseisen kirjaimen. 
  Ei hyväksytyistä merkeistä tai jo arvatuista kirjaimista ei tule virhettä.
  
